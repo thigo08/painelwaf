@@ -19,6 +19,7 @@ import java.util.Enumeration;
 import java.util.regex.Pattern;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -36,24 +37,33 @@ import org.owasp.esapi.waf.internal.InterceptingHTTPServletResponse;
 @Entity
 public class SimpleVirtualPatchRule extends Rule {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final String REQUEST_PARAMETERS = "request.parameters.";
 	private static final String REQUEST_HEADERS = "request.headers.";
 
-	private Pattern path;
+	@OneToOne
+	private UrlPath path;
+	
 	private String variable;
-	private Pattern valid;
+	
+	@OneToOne
+	private UrlPath valid;
+	
 	private String message;
 	
 	public SimpleVirtualPatchRule(){
-		
+		path = new UrlPath();
+		valid = new UrlPath();
 	}
 
-	public SimpleVirtualPatchRule(String id, Pattern path, String variable, Pattern valid, String message) {
-		//setId(id);
-		this.path = path;
-		this.variable = variable;
-		this.valid = valid;
-		this.message = message;
+	public SimpleVirtualPatchRule(String path, String variable, String valid, String message) {
+		this.setPath(new UrlPath(path, true));
+		this.setVariable(variable);
+		this.setValid(new UrlPath(valid, true));
+		this.setMessage(message);
 	}
 
 	public Action check(HttpServletRequest req,
@@ -61,9 +71,11 @@ public class SimpleVirtualPatchRule extends Rule {
 			HttpServletResponse httpResponse) {
 
 		InterceptingHTTPServletRequest request = (InterceptingHTTPServletRequest)req;
+		Pattern patternPath = Pattern.compile(getPath().getUrl());
+		Pattern patternValid = Pattern.compile(getValid().getUrl());
 
 		String uri = request.getRequestURI();
-		if ( ! path.matcher(uri).matches() ) {
+		if ( ! patternPath.matcher(uri).matches() ) {
 
 			return new DoNothingAction();
 
@@ -108,8 +120,8 @@ public class SimpleVirtualPatchRule extends Rule {
 						} else {
 							value = request.getHeader(s);
 						}
-						if ( value != null && ! valid.matcher(value).matches() ) {
-							log(request, "Virtual patch tripped on variable '" + variable + "' (specifically '" + s + "'). User input was '" + value + "' and legal pattern was '" + valid.pattern() + "': " + message);
+						if ( value != null && ! patternValid.matcher(value).matches() ) {
+							log(request, "Virtual patch tripped on variable '" + variable + "' (specifically '" + s + "'). User input was '" + value + "' and legal pattern was '" + patternValid.pattern() + "': " + message);
 							return new DefaultAction();
 						}
 					}
@@ -121,18 +133,18 @@ public class SimpleVirtualPatchRule extends Rule {
 
 				if ( parameter ) {
 					String value = request.getDictionaryParameter(target);
-					if ( value == null || valid.matcher(value).matches() ) {
+					if ( value == null || patternValid.matcher(value).matches() ) {
 						return new DoNothingAction();
 					} else {
-						log(request, "Virtual patch tripped on parameter '" + target + "'. User input was '" + value + "' and legal pattern was '" + valid.pattern() + "': " + message);
+						log(request, "Virtual patch tripped on parameter '" + target + "'. User input was '" + value + "' and legal pattern was '" + patternValid.pattern() + "': " + message);
 						return new DefaultAction();
 					}
 				} else {
 					String value = request.getHeader(target);
-					if ( value == null || valid.matcher(value).matches() ) {
+					if ( value == null || patternValid.matcher(value).matches() ) {
 						return new DoNothingAction();
 					} else {
-						log(request, "Virtual patch tripped on header '" + target + "'. User input was '" + value + "' and legal pattern was '" + valid.pattern() + "': " + message);
+						log(request, "Virtual patch tripped on header '" + target + "'. User input was '" + value + "' and legal pattern was '" + patternValid.pattern() + "': " + message);
 						return new DefaultAction();
 					}
 				}
@@ -140,6 +152,38 @@ public class SimpleVirtualPatchRule extends Rule {
 
 		}
 
+	}
+
+	public UrlPath getPath() {
+		return path;
+	}
+
+	public void setPath(UrlPath path) {
+		this.path = path;
+	}
+
+	public String getVariable() {
+		return variable;
+	}
+
+	public void setVariable(String variable) {
+		this.variable = variable;
+	}
+
+	public UrlPath getValid() {
+		return valid;
+	}
+
+	public void setValid(UrlPath valid) {
+		this.valid = valid;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 }

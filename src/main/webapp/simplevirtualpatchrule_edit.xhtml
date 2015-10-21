@@ -84,11 +84,11 @@
 					<p:message for="id" />
 
 					<h:outputLabel value="#{messages['simplevirtualpatchrule.label.path']}: "
-						for="path6" styleClass="text-input" />
-					<h:inputText id="path6" value="#{simpleVirtualPatchRuleEditMB.bean.path}"
+						for="path" styleClass="text-input" />
+					<h:inputText id="path" value="#{simpleVirtualPatchRuleEditMB.bean.path.url}"
 						title="#{messages['simplevirtualpatchrule.alt.path']}" required="true">
 					</h:inputText>
-					<p:message for="path6" />
+					<p:message for="path" />
 
 					<h:outputLabel value="#{messages['simplevirtualpatchrule.label.variable']}: "
 						for="variable" styleClass="text-input" />
@@ -100,7 +100,7 @@
 					<h:outputLabel value="#{messages['simplevirtualpatchrule.label.valid']}: "
 						for="valid" styleClass="text-input" />
 					<h:inputText id="valid"
-						value="#{simpleVirtualPatchRuleEditMB.bean.valid}"
+						value="#{simpleVirtualPatchRuleEditMB.bean.valid.url}"
 						title="#{messages['simplevirtualpatchrule.alt.valid']}" required="true"></h:inputText>
 					<p:message for="valid" />
 					

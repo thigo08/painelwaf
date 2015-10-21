@@ -28,18 +28,66 @@
  ou escreva para a Fundação do Software Livre (FSF) Inc.,
  51 Franklin St, Fifth Floor, Boston, MA 02111-1301, USA.
  */
-package org.demoiselle.waf.business;
+package org.demoiselle.waf.view;
 
+import java.util.Iterator;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.demoiselle.waf.business.SimpleVirtualPatchRuleBC;
 import org.demoiselle.waf.domain.SimpleVirtualPatchRule;
-import org.demoiselle.waf.persistence.SimpleVirtualPatchRuleDAO;
 
-import br.gov.frameworkdemoiselle.stereotype.BusinessController;
-import br.gov.frameworkdemoiselle.template.DelegateCrud;
+import br.gov.frameworkdemoiselle.annotation.NextView;
+import br.gov.frameworkdemoiselle.annotation.PreviousView;
+import br.gov.frameworkdemoiselle.stereotype.ViewController;
+import br.gov.frameworkdemoiselle.template.AbstractListPageBean;
+import br.gov.frameworkdemoiselle.transaction.Transactional;
 
-@BusinessController
-public class SimpleVirtualPatchRuleBC extends DelegateCrud<SimpleVirtualPatchRule, Long, SimpleVirtualPatchRuleDAO> {
+@ViewController
+@NextView("./simplevirtualpatchrule.jsf")
+@PreviousView("./simplevirtualpatchrule_list.jsf")
+public class SimpleVirtualPatchRuleListMB extends AbstractListPageBean<SimpleVirtualPatchRule, Long> {
 
 	private static final long serialVersionUID = 1L;
 
+	
+	@Inject
+	private SimpleVirtualPatchRuleBC simpleVirtualPatchRuleBC;
+	
+//	@Inject
+//	private ControleExcecoes controleExcecoes;
+//
+//   @PostConstruct
+//	private final void init() {
+//    	for (int i=0;i<10;i++){
+//    		System.out.println(i);
+//    		if (i == 9) controleExcecoes.chamaExcecao();
+//    	}
+//		
+//	}
+
+	@Override
+	protected List<SimpleVirtualPatchRule> handleResultList() {
+		//throw new TesteException();
+		return this.simpleVirtualPatchRuleBC.findAll();
+	}
+
+	@Transactional
+	public String deleteSelection() {
+		boolean delete;
+		for (Iterator<Long> iter = getSelection().keySet().iterator(); iter
+				.hasNext();) {
+			Long id = iter.next();
+			delete = getSelection().get(id);
+			if (delete) {
+				simpleVirtualPatchRuleBC.delete(id);
+				iter.remove();
+			}
+		}
+		return getPreviousView();
+	}
+
+	
 
 }

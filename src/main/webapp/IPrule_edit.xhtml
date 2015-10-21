@@ -49,14 +49,14 @@
 			<p:toolbar>
 				<p:toolbarGroup align="left">
 					<p:commandButton value="#{messages['button.save']}"
-						action="#{restrictUserAgentRuleEditMB.insert}" 
-						rendered="#{!restrictUserAgentRuleEditMB.updateMode}" ajax="false" />
+						action="#{iPRuleEditMB.insert}" 
+						rendered="#{!iPRuleEditMB.updateMode}" ajax="false" />
 					<p:commandButton value="#{messages['button.save']}"
-						action="#{restrictUserAgentRuleEditMB.update}"
-						rendered="#{restrictUserAgentRuleEditMB.updateMode}" ajax="false" />
+						action="#{iPRuleEditMB.update}"
+						rendered="#{iPRuleEditMB.updateMode}" ajax="false" />
 					<p:commandButton value="#{messages['button.delete']}"
 						onclick="PF('confirmation').show()"
-						rendered="#{restrictUserAgentRuleEditMB.updateMode}" type="button"
+						rendered="#{iPRuleEditMB.updateMode}" type="button"
 						immediate="true" ajax="false"
 						disabled="#{!securityContext.hasRole('gerente')}" />
 					<p:confirmDialog message="#{messages['label.confirm.delete']}"
@@ -64,7 +64,7 @@
 						header="#{messages['label.dialog.delete']}" severity="alert"
 						widgetVar="confirmation">
 						<h:commandButton value="#{messages['button.dialog.yes']}"
-							action="#{restrictUserAgentRuleEditMB.delete}" immediate="true"
+							action="#{iPRuleEditMB.delete}" immediate="true"
 							ajax="false" />
 						<h:commandButton value="#{messages['button.dialog.no']}"
 							onclick="PF('confirmation').hide();" type="button" />
@@ -80,12 +80,12 @@
 
 					<h:outputLabel value="#{messages['IPrule.label.id']}: "
 						for="id" styleClass="text-input" />
-					<h:outputText id="id" value="#{restrictUserAgentRuleEditMB.bean.id}" />
+					<h:outputText id="id" value="#{iPRuleEditMB.bean.id}" />
 					<p:message for="id" />
 
 					<h:outputLabel value="#{messages['IPrule.label.allowedIP']}: "
 						for="allowedIP" styleClass="text-input" />
-					<h:inputText id="allowedIP" value="#{restrictUserAgentRuleEditMB.bean.sessionAttribute}"
+					<h:inputText id="allowedIP" value="#{iPRuleEditMB.bean.allowedIP.url}"
 						title="#{messages['IPrule.alt.allowedIP']}" required="true">
 					</h:inputText>
 					<p:message for="allowedIP" />
@@ -93,21 +93,21 @@
 					<h:outputLabel value="#{messages['IPrule.label.exactPath']}: "
 						for="exactPath" styleClass="text-input" />
 					<h:inputText id="exactPath"
-						value="#{restrictUserAgentRuleEditMB.bean.path}"
+						value="#{iPRuleEditMB.bean.exactPath}"
 						title="#{messages['IPrule.alt.exactPath']}" required="true"></h:inputText>
 					<p:message for="exactPath" />
 					
 					<h:outputLabel value="#{messages['IPrule.label.path']}: "
-						for="path4" styleClass="text-input" />
-					<h:inputText id="path4"
-						value="#{restrictUserAgentRuleEditMB.bean.path}"
+						for="path" styleClass="text-input" />
+					<h:inputText id="path"
+						value="#{iPRuleEditMB.bean.path.url}"
 						title="#{messages['IPrule.alt.path']}" required="true"></h:inputText>
-					<p:message for="path4" />
+					<p:message for="path" />
 					
 					<h:outputLabel value="#{messages['IPrule.label.ipHeader']}: "
 						for="ipHeader" styleClass="text-input" />
 					<h:inputText id="ipHeader"
-						value="#{restrictUserAgentRuleEditMB.bean.path}"
+						value="#{iPRuleEditMB.bean.path}"
 						title="#{messages['IPrule.alt.ipHeader']}" required="true"></h:inputText>
 					<p:message for="ipHeader" />
 

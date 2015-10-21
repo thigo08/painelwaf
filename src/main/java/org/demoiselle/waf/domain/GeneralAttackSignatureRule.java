@@ -19,6 +19,7 @@ import java.util.Enumeration;
 import java.util.regex.Pattern;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -38,33 +39,48 @@ import org.owasp.esapi.waf.internal.InterceptingHTTPServletResponse;
 @Entity
 public class GeneralAttackSignatureRule extends Rule {
 
-	private Pattern signature;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	@OneToOne
+	private UrlPath signature;
 	
 	public GeneralAttackSignatureRule(){
-		
+		signature = new UrlPath();
 	}
 
-	public GeneralAttackSignatureRule(String id, Pattern signature) {
-		this.signature = signature;
-		//setId(id);
+	public GeneralAttackSignatureRule(String signature) {
+		this.setSignature(new UrlPath(signature, true));
 	}
 
 	public Action check(HttpServletRequest req,
 			InterceptingHTTPServletResponse response, 
 			HttpServletResponse httpResponse) {
+		
+		Pattern patternPath = Pattern.compile(getSignature().getUrl());
 
 		InterceptingHTTPServletRequest request = (InterceptingHTTPServletRequest)req;
 		Enumeration e = request.getParameterNames();
 
 		while(e.hasMoreElements()) {
 			String param = (String)e.nextElement();
-			if ( signature.matcher(request.getDictionaryParameter(param)).matches() ) {
+			if ( patternPath.matcher(request.getDictionaryParameter(param)).matches() ) {
 				log(request,"General attack signature detected in parameter '" + param + "' value '" + request.getDictionaryParameter(param) + "'");
 				return new DefaultAction();
 			}
 		}
 
 		return new DoNothingAction();
+	}
+
+	public UrlPath getSignature() {
+		return signature;
+	}
+
+	public void setSignature(UrlPath signature) {
+		this.signature = signature;
 	}
 
 }

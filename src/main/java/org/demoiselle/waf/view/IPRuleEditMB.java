@@ -28,18 +28,79 @@
  ou escreva para a Fundação do Software Livre (FSF) Inc.,
  51 Franklin St, Fifth Floor, Boston, MA 02111-1301, USA.
  */
-package org.demoiselle.waf.business;
+package org.demoiselle.waf.view;
 
-import org.demoiselle.waf.domain.SimpleVirtualPatchRule;
-import org.demoiselle.waf.persistence.SimpleVirtualPatchRuleDAO;
+import javax.inject.Inject;
 
-import br.gov.frameworkdemoiselle.stereotype.BusinessController;
-import br.gov.frameworkdemoiselle.template.DelegateCrud;
+import org.demoiselle.waf.business.IPRuleBC;
+import org.demoiselle.waf.business.UrlPathBC;
+import org.demoiselle.waf.domain.IPRule;
 
-@BusinessController
-public class SimpleVirtualPatchRuleBC extends DelegateCrud<SimpleVirtualPatchRule, Long, SimpleVirtualPatchRuleDAO> {
+import br.gov.frameworkdemoiselle.annotation.PreviousView;
+import br.gov.frameworkdemoiselle.stereotype.ViewController;
+import br.gov.frameworkdemoiselle.template.AbstractEditPageBean;
+import br.gov.frameworkdemoiselle.transaction.Transactional;
+
+@ViewController
+@PreviousView("./IPrule_list.jsf")
+public class IPRuleEditMB extends AbstractEditPageBean<IPRule, Long> {
 
 	private static final long serialVersionUID = 1L;
+	
+	//private DataModel<UrlPath> pathexceptions;
+	
+	@Inject
+	private IPRuleBC iPRuleBC;
+	
+	@Inject
+	private UrlPathBC urlPathBC;
+	
+	@Override
+	@Transactional
+	public String delete() {
+		this.iPRuleBC.delete(getId());
+		return getPreviousView();
+	}
+	
+	@Override
+	@Transactional
+	public String insert() {
+		IPRule iPRule = getBean();
+		
+		urlPathBC.insert(iPRule.getAllowedIP());
+		urlPathBC.insert(iPRule.getPath());
+		
+		this.iPRuleBC.insert(getBean());
+		return getPreviousView();
+	}
+	
+	
+	@Override
+	@Transactional
+	public String update() {
+		this.iPRuleBC.update(getBean());
+		return getPreviousView();
+	}
+	
+//	public DataModel<UrlPath> getPathExceptions() {
+//		if (pathexceptions == null) {
+//			pathexceptions = new ListDataModel<UrlPath>(getBean().getExceptions());
+//		}
+//
+//		return pathexceptions;
+//	}
+//	
+//	public void addPathException() {
+//		getBean().getExceptions().add(new UrlPath());
+//	}
+//
+//	public void deletePathException() {
+//		getBean().getExceptions().remove(getPathExceptions().getRowData());
+//	}
 
-
+	@Override
+	protected IPRule handleLoad(Long id) {
+		return this.iPRuleBC.load(id);
+	}
+		
 }

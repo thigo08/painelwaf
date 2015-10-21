@@ -18,6 +18,7 @@ package org.demoiselle.waf.domain;
 import java.util.regex.Pattern;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -35,25 +36,37 @@ import org.owasp.esapi.waf.internal.InterceptingHTTPServletResponse;
 @Entity
 public class IPRule extends Rule {
 
-	private Pattern allowedIP;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@OneToOne
+	private UrlPath allowedIP;
+	
 	private String exactPath;
-	private Pattern path;
+	
+	@OneToOne
+	private UrlPath path;
+	
 	private boolean useExactPath = false;
+	
 	private String ipHeader;
 	
 	public IPRule(){
-		
+		allowedIP = new UrlPath();
+		path = new UrlPath();
 	}
 
-	public IPRule(String id, Pattern allowedIP, Pattern path, String ipHeader) {
-		this.allowedIP = allowedIP;
-		this.path = path;
+	public IPRule(String allowedIP, String path, String ipHeader) {
+		this.setAllowedIP(new UrlPath(allowedIP, true));
+		this.setPath(new UrlPath(path, true));
 		this.useExactPath = false;
-		this.ipHeader = ipHeader;
+		this.setIpHeader(ipHeader);
 		//setId(id);
 	}
 
-	public IPRule(String id, Pattern allowedIP, String exactPath) {
+	public IPRule(String allowedIP, String exactPath) {
 		this.path = null;
 		this.exactPath = exactPath;
 		this.useExactPath = true;
@@ -63,10 +76,12 @@ public class IPRule extends Rule {
 	public Action check(HttpServletRequest request,
 			InterceptingHTTPServletResponse response, 
 			HttpServletResponse httpResponse) {
-
+		
+		Pattern patternPath = Pattern.compile(getPath().getUrl());
+		Pattern patternAllowedIP = Pattern.compile(getAllowedIP().getUrl());
 		String uri = request.getRequestURI();
 
-		if ( (!useExactPath && path.matcher(uri).matches()) ||
+		if ( (!useExactPath && patternPath.matcher(uri).matches()) ||
 			 ( useExactPath && exactPath.equals(uri)) ) {
 			
 			String sourceIP = request.getRemoteAddr() + "";
@@ -75,7 +90,7 @@ public class IPRule extends Rule {
 				sourceIP = request.getHeader(ipHeader);
 			}
 			
-			if ( ! allowedIP.matcher(sourceIP).matches() ) {
+			if ( ! patternAllowedIP.matcher(sourceIP).matches() ) {
 				log(request, "IP not allowed to access URI '" + uri + "'");
 				return new DefaultAction();
 			}
@@ -83,4 +98,45 @@ public class IPRule extends Rule {
 
 		return new DoNothingAction();
 	}
+
+	public UrlPath getAllowedIP() {
+		return allowedIP;
+	}
+
+	public void setAllowedIP(UrlPath allowedIP) {
+		this.allowedIP = allowedIP;
+	}
+
+	public String getExactPath() {
+		return exactPath;
+	}
+
+	public void setExactPath(String exactPath) {
+		this.exactPath = exactPath;
+	}
+
+	public UrlPath getPath() {
+		return path;
+	}
+
+	public void setPath(UrlPath path) {
+		this.path = path;
+	}
+
+	public boolean isUseExactPath() {
+		return useExactPath;
+	}
+
+	public void setUseExactPath(boolean useExactPath) {
+		this.useExactPath = useExactPath;
+	}
+
+	public String getIpHeader() {
+		return ipHeader;
+	}
+
+	public void setIpHeader(String ipHeader) {
+		this.ipHeader = ipHeader;
+	}
+	
 }

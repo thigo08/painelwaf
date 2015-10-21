@@ -8,15 +8,19 @@
         <class>org.demoiselle.waf.domain.AddHeaderRule</class>
         <class>org.demoiselle.waf.domain.AddHTTPOnlyFlagRule</class>
         <class>org.demoiselle.waf.domain.AddSecureFlagRule</class>
+        <class>org.demoiselle.waf.domain.AuthenticatedRule</class>
+        <class>org.demoiselle.waf.domain.DetectOutboundContentRule</class>
         <class>org.demoiselle.waf.domain.EnforceHTTPSRule</class>
-        <class>org.demoiselle.waf.domain.PathExtensionRule</class>
+        <class>org.demoiselle.waf.domain.GeneralAttackSignatureRule</class>
+        <class>org.demoiselle.waf.domain.HTTPMethodRule</class>
+        <class>org.demoiselle.waf.domain.IPRule</class>
         <class>org.demoiselle.waf.domain.MustMatchRule</class>
+        <class>org.demoiselle.waf.domain.PathExtensionRule</class>
         <class>org.demoiselle.waf.domain.ReplaceContentRule</class>
         <class>org.demoiselle.waf.domain.RestrictContentTypeRule</class>
         <class>org.demoiselle.waf.domain.RestrictUserAgentRule</class>
-        <class>org.demoiselle.waf.domain.AuthenticatedRule</class>
+        <class>org.demoiselle.waf.domain.SimpleVirtualPatchRule</class>
         <class>org.demoiselle.waf.domain.UrlPath</class>
-        <class>org.demoiselle.waf.domain.DetectOutboundContentRule</class>
 
   		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
