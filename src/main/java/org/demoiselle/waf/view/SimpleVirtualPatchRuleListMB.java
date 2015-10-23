@@ -45,7 +45,7 @@ import br.gov.frameworkdemoiselle.template.AbstractListPageBean;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
 @ViewController
-@NextView("./simplevirtualpatchrule.jsf")
+@NextView("./simplevirtualpatchrule_edit.jsf")
 @PreviousView("./simplevirtualpatchrule_list.jsf")
 public class SimpleVirtualPatchRuleListMB extends AbstractListPageBean<SimpleVirtualPatchRule, Long> {
 

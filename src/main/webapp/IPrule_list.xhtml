@@ -43,8 +43,8 @@
 		<h:form>
 			<p:toolbar>
 				<p:toolbarGroup align="left">
-					<p:commandButton title="#{messages['button.new']}" icon="ui-icon-document" action="#{iPRuleListMB.getNextView()}"
-						actionListener="#{iPRuleListMB.clear}" ajax="false" />
+					<p:commandButton title="#{messages['button.new']}" icon="ui-icon-document" action="#{ipRuleListMB.getNextView()}"
+						actionListener="#{ipRuleListMB.clear}" ajax="false" />
 
 					<p:commandButton title="#{messages['button.delete']}" icon="ui-icon-trash" onclick="PF('confirmation').show()"
 						type="button" immediate="true" ajax="false" disabled="#{!securityContext.hasRole('gerente')}" />
@@ -52,16 +52,16 @@
 					<p:confirmDialog message="#{messages['label.confirm.delete']}" showEffect="bounce" hideEffect="explode"
 						header="#{messages['label.dialog.alert']}!" severity="alert" widgetVar="confirmation">
 
-						<h:commandButton value="#{messages['button.dialog.yes']}" action="#{iPRuleListMB.deleteSelection}"
-							actionListener="#{iPRuleListMB.clear}" />
+						<h:commandButton value="#{messages['button.dialog.yes']}" action="#{ipRuleListMB.deleteSelection}"
+							actionListener="#{ipRuleListMB.clear}" />
 						<h:commandButton value="#{messages['button.dialog.no']}" onclick="PF('confirmation').hide();" type="button" />
 					</p:confirmDialog>
 				</p:toolbarGroup>
 			</p:toolbar>
-			<p:dataTable id="list" var="bean" value="#{iPRuleListMB.resultList}">
+			<p:dataTable id="list" var="bean" value="#{ipRuleListMB.resultList}">
 				<f:facet name="header">#{messages['IPrule.list.table.title']}</f:facet>
 				<p:column style="width:5%;">
-					<h:selectBooleanCheckbox value="#{iPRuleListMB.selection[bean.id]}"></h:selectBooleanCheckbox>
+					<h:selectBooleanCheckbox value="#{ipRuleListMB.selection[bean.id]}"></h:selectBooleanCheckbox>
 				</p:column>
 				
 				<p:column style="width:5%;" sortBy="#{bean.id}">
@@ -71,7 +71,7 @@
 						
 				<p:column sortBy="#{bean.allowedIP.url}">
 					<f:facet name="header">#{messages['IPrule.label.allowedIP']}</f:facet>
-					<h:commandLink action="#{iPRuleListMB.getNextView()}" actionListener="#{iPRuleListMB.clear}">
+					<h:commandLink action="#{ipRuleListMB.getNextView()}" actionListener="#{ipRuleListMB.clear}">
 						<h:outputText value="#{bean.allowedIP.url}" />
 						<f:param name="id" value="#{bean.id}" />
 					</h:commandLink>
@@ -79,7 +79,7 @@
 				
 				<p:column sortBy="#{bean.exactPath}">
 					<f:facet name="header">#{messages['IPrule.label.exactPath']}</f:facet>
-					<h:commandLink action="#{iPRuleListMB.getNextView()}" actionListener="#{iPRuleListMB.clear}">
+					<h:commandLink action="#{ipRuleListMB.getNextView()}" actionListener="#{ipRuleListMB.clear}">
 						<h:outputText value="#{bean.exactPath}" />
 						<f:param name="id" value="#{bean.id}" />
 					</h:commandLink>
@@ -87,7 +87,7 @@
 				
 				<p:column sortBy="#{bean.path.url}">
 					<f:facet name="header">#{messages['IPrule.label.path']}</f:facet>
-					<h:commandLink action="#{iPRuleListMB.getNextView()}" actionListener="#{iPRuleListMB.clear}">
+					<h:commandLink action="#{ipRuleListMB.getNextView()}" actionListener="#{ipRuleListMB.clear}">
 						<h:outputText value="#{bean.path.url}" />
 						<f:param name="id" value="#{bean.id}" />
 					</h:commandLink>
@@ -95,7 +95,7 @@
 				
 				<p:column sortBy="#{bean.ipHeader}">
 					<f:facet name="header">#{messages['IPrule.label.ipHeader']}</f:facet>
-					<h:commandLink action="#{iPRuleListMB.getNextView()}" actionListener="#{iPRuleListMB.clear}">
+					<h:commandLink action="#{ipRuleListMB.getNextView()}" actionListener="#{ipRuleListMB.clear}">
 						<h:outputText value="#{bean.ipHeader}" />
 						<f:param name="id" value="#{bean.id}" />
 					</h:commandLink>

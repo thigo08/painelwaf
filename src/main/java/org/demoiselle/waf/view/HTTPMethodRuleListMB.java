@@ -45,9 +45,9 @@ import br.gov.frameworkdemoiselle.template.AbstractListPageBean;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
 @ViewController
-@NextView("./HTTPmethodrule_edit.jsf")
-@PreviousView("./HTTPmethodrule_list.jsf")
-public class HTTPMethodRuleListMB extends AbstractListPageBean<HTTPMethodRule, Long> {
+@NextView("./httpmethodrule_edit.jsf")
+@PreviousView("./httpmethodrule_list.jsf")
+public class HttpMethodRuleListMB extends AbstractListPageBean<HTTPMethodRule, Long> {
 
 	private static final long serialVersionUID = 1L;
 

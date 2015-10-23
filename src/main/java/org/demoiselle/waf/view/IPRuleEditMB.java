@@ -42,8 +42,8 @@ import br.gov.frameworkdemoiselle.template.AbstractEditPageBean;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
 @ViewController
-@PreviousView("./IPrule_list.jsf")
-public class IPRuleEditMB extends AbstractEditPageBean<IPRule, Long> {
+@PreviousView("./iprule_list.jsf")
+public class IpRuleEditMB extends AbstractEditPageBean<IPRule, Long> {
 
 	private static final long serialVersionUID = 1L;
 	

@@ -43,8 +43,8 @@
 		<h:form>
 			<p:toolbar>
 				<p:toolbarGroup align="left">
-					<p:commandButton title="#{messages['button.new']}" icon="ui-icon-document" action="#{hTTPMethodRuleListMB.getNextView()}"
-						actionListener="#{hTTPMethodRuleListMB.clear}" ajax="false" />
+					<p:commandButton title="#{messages['button.new']}" icon="ui-icon-document" action="#{httpMethodRuleListMB.getNextView()}"
+						actionListener="#{httpMethodRuleListMB.clear}" ajax="false" />
 
 					<p:commandButton title="#{messages['button.delete']}" icon="ui-icon-trash" onclick="PF('confirmation').show()"
 						type="button" immediate="true" ajax="false" disabled="#{!securityContext.hasRole('gerente')}" />
@@ -52,16 +52,16 @@
 					<p:confirmDialog message="#{messages['label.confirm.delete']}" showEffect="bounce" hideEffect="explode"
 						header="#{messages['label.dialog.alert']}!" severity="alert" widgetVar="confirmation">
 
-						<h:commandButton value="#{messages['button.dialog.yes']}" action="#{hTTPMethodRuleListMB.deleteSelection}"
-							actionListener="#{hTTPMethodRuleListMB.clear}" />
+						<h:commandButton value="#{messages['button.dialog.yes']}" action="#{httpMethodRuleListMB.deleteSelection}"
+							actionListener="#{httpMethodRuleListMB.clear}" />
 						<h:commandButton value="#{messages['button.dialog.no']}" onclick="PF('confirmation').hide();" type="button" />
 					</p:confirmDialog>
 				</p:toolbarGroup>
 			</p:toolbar>
-			<p:dataTable id="list" var="bean" value="#{hTTPMethodRuleListMB.resultList}">
+			<p:dataTable id="list" var="bean" value="#{httpMethodRuleListMB.resultList}">
 				<f:facet name="header">#{messages['HTTPmethodrule.list.table.title']}</f:facet>
 				<p:column style="width:5%;">
-					<h:selectBooleanCheckbox value="#{hTTPMethodRuleListMB.selection[bean.id]}"></h:selectBooleanCheckbox>
+					<h:selectBooleanCheckbox value="#{httpMethodRuleListMB.selection[bean.id]}"></h:selectBooleanCheckbox>
 				</p:column>
 				
 				<p:column style="width:5%;" sortBy="#{bean.id}">
@@ -71,7 +71,7 @@
 						
 				<p:column sortBy="#{bean.allowedMethods.url}">
 					<f:facet name="header">#{messages['HTTPmethodrule.label.allowedMethods']}</f:facet>
-					<h:commandLink action="#{hTTPMethodRuleListMB.getNextView()}" actionListener="#{hTTPMethodRuleListMB.clear}">
+					<h:commandLink action="#{httpMethodRuleListMB.getNextView()}" actionListener="#{httpMethodRuleListMB.clear}">
 						<h:outputText value="#{bean.allowedMethods.url}" />
 						<f:param name="id" value="#{bean.id}" />
 					</h:commandLink>
@@ -79,7 +79,7 @@
 				
 				<p:column sortBy="#{bean.deniedMethods.url}">
 					<f:facet name="header">#{messages['HTTPmethodrule.label.deniedMethods']}</f:facet>
-					<h:commandLink action="#{hTTPMethodRuleListMB.getNextView()}" actionListener="#{hTTPMethodRuleListMB.clear}">
+					<h:commandLink action="#{httpMethodRuleListMB.getNextView()}" actionListener="#{httpMethodRuleListMB.clear}">
 						<h:outputText value="#{bean.deniedMethods.url}" />
 						<f:param name="id" value="#{bean.id}" />
 					</h:commandLink>
@@ -87,7 +87,7 @@
 				
 				<p:column sortBy="#{bean.path.url}">
 					<f:facet name="header">#{messages['HTTPmethodrule.label.path']}</f:facet>
-					<h:commandLink action="#{hTTPMethodRuleListMB.getNextView()}" actionListener="#{hTTPMethodRuleListMB.clear}">
+					<h:commandLink action="#{httpMethodRuleListMB.getNextView()}" actionListener="#{httpMethodRuleListMB.clear}">
 						<h:outputText value="#{bean.path.url}" />
 						<f:param name="id" value="#{bean.id}" />
 					</h:commandLink>

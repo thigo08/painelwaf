@@ -49,14 +49,14 @@
 			<p:toolbar>
 				<p:toolbarGroup align="left">
 					<p:commandButton value="#{messages['button.save']}"
-						action="#{hTTPMethodRuleEditMB.insert}" 
-						rendered="#{!hTTPMethodRuleEditMB.updateMode}" ajax="false" />
+						action="#{httpMethodRuleEditMB.insert}" 
+						rendered="#{!httpMethodRuleEditMB.updateMode}" ajax="false" />
 					<p:commandButton value="#{messages['button.save']}"
-						action="#{hTTPMethodRuleEditMB.update}"
-						rendered="#{hTTPMethodRuleEditMB.updateMode}" ajax="false" />
+						action="#{httpMethodRuleEditMB.update}"
+						rendered="#{httpMethodRuleEditMB.updateMode}" ajax="false" />
 					<p:commandButton value="#{messages['button.delete']}"
 						onclick="PF('confirmation').show()"
-						rendered="#{hTTPMethodRuleEditMB.updateMode}" type="button"
+						rendered="#{httpMethodRuleEditMB.updateMode}" type="button"
 						immediate="true" ajax="false"
 						disabled="#{!securityContext.hasRole('gerente')}" />
 					<p:confirmDialog message="#{messages['label.confirm.delete']}"
@@ -64,7 +64,7 @@
 						header="#{messages['label.dialog.delete']}" severity="alert"
 						widgetVar="confirmation">
 						<h:commandButton value="#{messages['button.dialog.yes']}"
-							action="#{hTTPMethodRuleEditMB.delete}" immediate="true"
+							action="#{httpMethodRuleEditMB.delete}" immediate="true"
 							ajax="false" />
 						<h:commandButton value="#{messages['button.dialog.no']}"
 							onclick="PF('confirmation').hide();" type="button" />
@@ -80,12 +80,12 @@
 
 					<h:outputLabel value="#{messages['HTTPmethodrule.label.id']}: "
 						for="id" styleClass="text-input" />
-					<h:outputText id="id" value="#{hTTPMethodRuleEditMB.bean.id}" />
+					<h:outputText id="id" value="#{httpMethodRuleEditMB.bean.id}" />
 					<p:message for="id" />
 
 					<h:outputLabel value="#{messages['HTTPmethodrule.label.allowedMethods']}: "
 						for="allowedMethods" styleClass="text-input" />
-					<h:inputText id="allowedMethods" value="#{hTTPMethodRuleEditMB.bean.allowedMethods.url}"
+					<h:inputText id="allowedMethods" value="#{httpMethodRuleEditMB.bean.allowedMethods.url}"
 						title="#{messages['HTTPmethodrule.alt.allowedMethods']}" required="true">
 					</h:inputText>
 					<p:message for="allowedMethods" />
@@ -93,14 +93,14 @@
 					<h:outputLabel value="#{messages['HTTPmethodrule.label.deniedMethods']}: "
 						for="deniedMethods" styleClass="text-input" />
 					<h:inputText id="deniedMethods"
-						value="#{hTTPMethodRuleEditMB.bean.deniedMethods.url}"
+						value="#{httpMethodRuleEditMB.bean.deniedMethods.url}"
 						title="#{messages['HTTPmethodrule.alt.deniedMethods']}" required="true"></h:inputText>
 					<p:message for="deniedMethods" />
 					
 					<h:outputLabel value="#{messages['HTTPmethodrule.label.path']}: "
 						for="path" styleClass="text-input" />
 					<h:inputText id="path"
-						value="#{hTTPMethodRuleEditMB.bean.path.url}"
+						value="#{httpMethodRuleEditMB.bean.path.url}"
 						title="#{messages['HTTPmethodrule.alt.path']}" required="true"></h:inputText>
 					<p:message for="path" />
 
