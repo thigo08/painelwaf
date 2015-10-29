@@ -95,7 +95,7 @@
 
 					<h:outputLabel value="#{messages['login.password']}" for="password"
 						styleClass="text-input" />
-					<p:password id="password" value="#{loginMB.senha}" required="true" />
+					<h:inputSecret id="password" value="#{loginMB.senha}" required="true" />
 					<p:message for="password" />
 
 					<p:spacer />

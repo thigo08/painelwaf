@@ -4,6 +4,9 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="esapi-2.1.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/esapi-java-legacy-master/esapi-java-legacy-master">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="java-output-path" value="/PaineldeControle1/target/classes"/>
         <property name="context-root" value="painel"/>
     </wb-module>
