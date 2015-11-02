@@ -30,14 +30,14 @@
  */
 package org.demoiselle.waf.business;
 
-import org.demoiselle.waf.domain.BeanShellRule;
-import org.demoiselle.waf.persistence.BeanShellRuleDAO;
+import org.demoiselle.waf.domain.Alias;
+import org.demoiselle.waf.persistence.AliasDAO;
 
 import br.gov.frameworkdemoiselle.stereotype.BusinessController;
 import br.gov.frameworkdemoiselle.template.DelegateCrud;
 
 @BusinessController
-public class BeanShellRuleBC extends DelegateCrud<BeanShellRule, Long, BeanShellRuleDAO> {
+public class AliasBC extends DelegateCrud<Alias, Long, AliasDAO> {
 
 	private static final long serialVersionUID = 1L;
 

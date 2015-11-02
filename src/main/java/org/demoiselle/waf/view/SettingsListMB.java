@@ -28,18 +28,66 @@
  ou escreva para a Fundação do Software Livre (FSF) Inc.,
  51 Franklin St, Fifth Floor, Boston, MA 02111-1301, USA.
  */
-package org.demoiselle.waf.business;
+package org.demoiselle.waf.view;
 
-import org.demoiselle.waf.domain.BeanShellRule;
-import org.demoiselle.waf.persistence.BeanShellRuleDAO;
+import java.util.Iterator;
+import java.util.List;
 
-import br.gov.frameworkdemoiselle.stereotype.BusinessController;
-import br.gov.frameworkdemoiselle.template.DelegateCrud;
+import javax.inject.Inject;
 
-@BusinessController
-public class BeanShellRuleBC extends DelegateCrud<BeanShellRule, Long, BeanShellRuleDAO> {
+import org.demoiselle.waf.business.SettingsBC;
+import org.demoiselle.waf.domain.Settings;
+
+import br.gov.frameworkdemoiselle.annotation.NextView;
+import br.gov.frameworkdemoiselle.annotation.PreviousView;
+import br.gov.frameworkdemoiselle.stereotype.ViewController;
+import br.gov.frameworkdemoiselle.template.AbstractListPageBean;
+import br.gov.frameworkdemoiselle.transaction.Transactional;
+
+@ViewController
+@NextView("./settings_edit.jsf")
+@PreviousView("./settings_list.jsf")
+public class SettingsListMB extends AbstractListPageBean<Settings, Long> {
 
 	private static final long serialVersionUID = 1L;
 
+	
+	@Inject
+	private SettingsBC settingsBC;
+	
+//	@Inject
+//	private ControleExcecoes controleExcecoes;
+//
+//   @PostConstruct
+//	private final void init() {
+//    	for (int i=0;i<10;i++){
+//    		System.out.println(i);
+//    		if (i == 9) controleExcecoes.chamaExcecao();
+//    	}
+//		
+//	}
+
+	@Override
+	protected List<Settings> handleResultList() {
+		//throw new TesteException();
+		return this.settingsBC.findAll();
+	}
+
+	@Transactional
+	public String deleteSelection() {
+		boolean delete;
+		for (Iterator<Long> iter = getSelection().keySet().iterator(); iter
+				.hasNext();) {
+			Long id = iter.next();
+			delete = getSelection().get(id);
+			if (delete) {
+				settingsBC.delete(id);
+				iter.remove();
+			}
+		}
+		return getPreviousView();
+	}
+
+	
 
 }

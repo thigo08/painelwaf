@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.regex.Pattern;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -43,30 +44,36 @@ import bsh.Interpreter;
 public class BeanShellRule extends Rule {
 
 	private Interpreter i;
+	
 	private String script;
-	private Pattern path;
+	
+	@OneToOne
+	//@JoinColumn(name = "fk_id_rule") 
+	private UrlPath path;
 	
 	public BeanShellRule(){
-		
+		path = new UrlPath();
 	}
 	
-	public BeanShellRule(String fileLocation, String id, Pattern path) throws IOException, EvalError { 
+	public BeanShellRule(String fileLocation, String id, String path) throws IOException, EvalError { 
 		i = new Interpreter();
 		i.set("logger", logger);
 		this.script = getFileContents( ESAPI.securityConfiguration().getResourceFile(fileLocation));
 		//this.id = id;
-		this.path = path;
+		this.setPath(new UrlPath(path, true));
 	}
 	
 	public Action check(HttpServletRequest request,
 			InterceptingHTTPServletResponse response, 
 			HttpServletResponse httpResponse) {
+		
+		Pattern patternPath = Pattern.compile(getPath().getUrl());
 
 		/*
 		 * Early fail: if the URL doesn't match one we're interested in.
 		 */
 		
-		if ( path != null && ! path.matcher(request.getRequestURI()).matches() ) {
+		if ( path != null && ! patternPath.matcher(request.getRequestURI()).matches() ) {
 			return new DoNothingAction();
 		}
 		
@@ -118,6 +125,14 @@ public class BeanShellRule extends Rule {
 		}
 		
 		return sb.toString();
+	}
+
+	public UrlPath getPath() {
+		return path;
+	}
+
+	public void setPath(UrlPath path) {
+		this.path = path;
 	}
 
 }

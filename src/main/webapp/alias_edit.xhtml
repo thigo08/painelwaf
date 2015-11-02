@@ -49,14 +49,14 @@
 			<p:toolbar>
 				<p:toolbarGroup align="left">
 					<p:commandButton value="#{messages['button.save']}"
-						action="#{beanShellRuleEditMB.insert}" 
-						rendered="#{!beanShellRuleEditMB.updateMode}" ajax="false" />
+						action="#{aliasEditMB.insert}"
+						rendered="#{!aliasEditMB.updateMode}" ajax="false" />
 					<p:commandButton value="#{messages['button.save']}"
-						action="#{beanShellRuleEditMB.update}"
-						rendered="#{beanShellRuleEditMB.updateMode}" ajax="false" />
+						action="#{aliasEditMB.update}"
+						rendered="#{aliasEditMB.updateMode}" ajax="false" />
 					<p:commandButton value="#{messages['button.delete']}"
 						onclick="PF('confirmation').show()"
-						rendered="#{beanShellRuleEditMB.updateMode}" type="button"
+						rendered="#{aliasEditMB.updateMode}" type="button"
 						immediate="true" ajax="false"
 						disabled="#{!securityContext.hasRole('gerente')}" />
 					<p:confirmDialog message="#{messages['label.confirm.delete']}"
@@ -64,7 +64,7 @@
 						header="#{messages['label.dialog.delete']}" severity="alert"
 						widgetVar="confirmation">
 						<h:commandButton value="#{messages['button.dialog.yes']}"
-							action="#{beanShellRuleEditMB.delete}" immediate="true"
+							action="#{aliasEditMB.delete}" immediate="true"
 							ajax="false" />
 						<h:commandButton value="#{messages['button.dialog.no']}"
 							onclick="PF('confirmation').hide();" type="button" />
@@ -74,37 +74,66 @@
 
 			<br />
 
-			<p:fieldset legend="#{messages['beanshellrule.label']}"
+			<p:fieldset legend="#{messages['alias.label']}"
 				toggleable="true" toggleSpeed="500">
 				<h:panelGrid id="fields" columns="3" cellpadding="2" cellspacing="4">
 
-					<h:outputLabel value="#{messages['beanshellrule.label.id']}: "
-						for="id" styleClass="text-input" />
-					<h:outputText id="id" value="#{beanShellRuleEditMB.bean.id}" />
-					<p:message for="id" />
-
-					<h:outputLabel value="#{messages['beanshellrule.label.script']}: "
-						for="messages" styleClass="text-input" />
-					<h:form enctype="multipart/form-data">
-    					<p:growl id="messages" showDetail="true" />
- 
-    					<p:fileUpload value="#{fileUploadView.file}" mode="simple" skinSimple="true"/>
- 
-   						<p:commandButton value="Submit" ajax="false" actionListener="#{fileUploadView.upload}"  />
-					</h:form>
-					<p:message for="messages" />
-
-					<h:outputLabel value="#{messages['beanshellrule.label.path']}: "
-						for="path" styleClass="text-input" />
-					<h:inputText id="path"
-						value="#{beanShellRuleEditMB.bean.path.url}"
-						title="#{messages['beanshellrule.alt.path']}" required="true"></h:inputText>
-					<p:message for="path" />
-
+					<h:outputLabel
+						value="#{messages['alias.label.name']}: "
+						for="name" styleClass="text-input" />
+					<h:inputText id="name"
+						value="#{aliasEditMB.bean.name}"
+						title="#{messages['alias.alt.name']}"
+						required="true">
+					</h:inputText>
+					<p:message for="name" />
 				</h:panelGrid>
+
+				<br />
+	
+				<p:fieldset id="pathException"
+					legend="#{messages['menu.alias']}" toggleable="true"
+					toggleSpeed="500">
+					<h:panelGrid id="fieldsException" columns="1">
+						<p:commandButton value="+"
+							title="#{messages['button.add']}"
+							action="#{aliasEditMB.addPathException}"
+							update="listException" />
+					</h:panelGrid>
+					<p:dataTable id="listException" var="exception"
+						resizableColumns="true"
+						value="#{aliasEditMB.pathExceptions}"
+						rowIndexVar="index">
+
+						<p:columnGroup type="header">
+							<p:row>
+								<p:column headerText="#{messages['urlpath.label.path']}" />
+								<p:column headerText="#{messages['urlpath.label.regex']}"/>
+								<p:column headerText="#{messages['label.acao']}" />
+							</p:row>
+						</p:columnGroup>
+
+						<p:column sortBy="#{exception.url}" >
+							<p:inputText value="#{exception.url}" style="width:100%"/>
+						</p:column>
+
+						<p:column style="text-align: center;">
+							<p:selectBooleanCheckbox value="#{exception.regex}" />
+						</p:column>
+
+						<p:column style="text-align: center;">
+							<p:commandButton  icon="ui-icon-trash"								
+								title="#{messages['button.delete']}"							
+								action="#{aliasEditMB.deletePathException}"
+								update="listException" ajax="true" />
+						</p:column>
+					</p:dataTable>
+				</p:fieldset>
+
 			</p:fieldset>
-			
+
 			<br />
+
 		</h:form>
 	</ui:define>
 </ui:composition>

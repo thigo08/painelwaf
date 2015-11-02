@@ -49,14 +49,14 @@
 			<p:toolbar>
 				<p:toolbarGroup align="left">
 					<p:commandButton value="#{messages['button.save']}"
-						action="#{beanShellRuleEditMB.insert}" 
-						rendered="#{!beanShellRuleEditMB.updateMode}" ajax="false" />
+						action="#{settingsEditMB.insert}" 
+						rendered="#{!settingsEditMB.updateMode}" ajax="false" />
 					<p:commandButton value="#{messages['button.save']}"
-						action="#{beanShellRuleEditMB.update}"
-						rendered="#{beanShellRuleEditMB.updateMode}" ajax="false" />
+						action="#{settingsEditMB.update}"
+						rendered="#{settingsEditMB.updateMode}" ajax="false" />
 					<p:commandButton value="#{messages['button.delete']}"
 						onclick="PF('confirmation').show()"
-						rendered="#{beanShellRuleEditMB.updateMode}" type="button"
+						rendered="#{settingsEditMB.updateMode}" type="button"
 						immediate="true" ajax="false"
 						disabled="#{!securityContext.hasRole('gerente')}" />
 					<p:confirmDialog message="#{messages['label.confirm.delete']}"
@@ -64,7 +64,7 @@
 						header="#{messages['label.dialog.delete']}" severity="alert"
 						widgetVar="confirmation">
 						<h:commandButton value="#{messages['button.dialog.yes']}"
-							action="#{beanShellRuleEditMB.delete}" immediate="true"
+							action="#{settingsEditMB.delete}" immediate="true"
 							ajax="false" />
 						<h:commandButton value="#{messages['button.dialog.no']}"
 							onclick="PF('confirmation').hide();" type="button" />
@@ -74,32 +74,43 @@
 
 			<br />
 
-			<p:fieldset legend="#{messages['beanshellrule.label']}"
+			<p:fieldset legend="#{messages['settings.label']}"
 				toggleable="true" toggleSpeed="500">
 				<h:panelGrid id="fields" columns="3" cellpadding="2" cellspacing="4">
 
-					<h:outputLabel value="#{messages['beanshellrule.label.id']}: "
+					<h:outputLabel value="#{messages['settings.label.id']}: "
 						for="id" styleClass="text-input" />
-					<h:outputText id="id" value="#{beanShellRuleEditMB.bean.id}" />
+					<h:outputText id="id" value="#{settingsEditMB.bean.id}" />
 					<p:message for="id" />
 
-					<h:outputLabel value="#{messages['beanshellrule.label.script']}: "
-						for="messages" styleClass="text-input" />
-					<h:form enctype="multipart/form-data">
-    					<p:growl id="messages" showDetail="true" />
- 
-    					<p:fileUpload value="#{fileUploadView.file}" mode="simple" skinSimple="true"/>
- 
-   						<p:commandButton value="Submit" ajax="false" actionListener="#{fileUploadView.upload}"  />
-					</h:form>
-					<p:message for="messages" />
+					 <p:outputLabel for="mode" value="#{messages['settings.label.mode']}: " />
+       				 <p:selectOneMenu id="mode" value="#{settingsEditMB.bean.mode}" style="width:125px">
+			         	<f:selectItem itemLabel="log" itemValue="log" />
+			            <f:selectItem itemLabel="block" itemValue="block" />
+			            <f:selectItem itemLabel="redirect" itemValue="redirect" />
+       				</p:selectOneMenu>
+					<p:message for="mode" />
 
-					<h:outputLabel value="#{messages['beanshellrule.label.path']}: "
-						for="path" styleClass="text-input" />
-					<h:inputText id="path"
-						value="#{beanShellRuleEditMB.bean.path.url}"
-						title="#{messages['beanshellrule.alt.path']}" required="true"></h:inputText>
-					<p:message for="path" />
+					<h:outputLabel value="#{messages['settings.label.sessionCookieName']}: "
+						for="sessionCookieName" styleClass="text-input" />
+					<h:inputText id="sessionCookieName"
+						value="#{settingsEditMB.bean.sessionCookieName}"
+						title="#{messages['settings.alt.sessionCookieName']}" required="true"></h:inputText>
+					<p:message for="sessionCookieName" />
+					
+					<h:outputLabel value="#{messages['settings.label.defaultRedirectPage']}: "
+						for="defaultRedirectPage" styleClass="text-input" />
+					<h:inputText id="defaultRedirectPage"
+						value="#{settingsEditMB.bean.defaultRedirectPage.url}"
+						title="#{messages['settings.alt.defaultRedirectPage']}" required="true"></h:inputText>
+					<p:message for="defaultRedirectPage" />
+					
+					<h:outputLabel value="#{messages['settings.label.blockStatus']}: "
+						for="blockStatus" styleClass="text-input" />
+					<h:inputText id="blockStatus"
+						value="#{settingsEditMB.bean.blockStatus}"
+						title="#{messages['settings.alt.blockStatus']}" required="true"></h:inputText>
+					<p:message for="blockStatus" />
 
 				</h:panelGrid>
 			</p:fieldset>

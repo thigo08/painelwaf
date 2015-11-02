@@ -39,7 +39,17 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 	<h:form>
-		<p:menubar style="font-weight: bold; font-size: small"  rendered="#{securityContext.loggedIn}">
+		<p:menubar  style="font-weight: bold; font-size: small"  rendered="#{securityContext.loggedIn}">
+		
+			<p:submenu label="#{messages['menu.alias']}">
+				<p:menuitem value="#{messages['menu.menuitem.new']}" url="/alias_edit.jsf"></p:menuitem>
+				<p:menuitem value="#{messages['menu.menuitem.list']}" url="/alias_list.jsf"></p:menuitem>
+			</p:submenu>
+			
+			<p:submenu label="#{messages['menu.settings']}">
+				<p:menuitem value="#{messages['menu.menuitem.new']}" url="/settings_edit.jsf"></p:menuitem>
+				<p:menuitem value="#{messages['menu.menuitem.list']}" url="/settings_list.jsf"></p:menuitem>
+			</p:submenu>
 		
 			<p:submenu label="#{messages['menu.addheaderrule']}">
 				<p:menuitem value="#{messages['menu.menuitem.new']}" url="/addheaderrule_edit.jsf"></p:menuitem>

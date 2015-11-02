@@ -28,18 +28,81 @@
  ou escreva para a Fundação do Software Livre (FSF) Inc.,
  51 Franklin St, Fifth Floor, Boston, MA 02111-1301, USA.
  */
-package org.demoiselle.waf.business;
+package org.demoiselle.waf.view;
 
-import org.demoiselle.waf.domain.BeanShellRule;
-import org.demoiselle.waf.persistence.BeanShellRuleDAO;
+import javax.faces.model.DataModel;
+import javax.faces.model.ListDataModel;
+import javax.inject.Inject;
 
-import br.gov.frameworkdemoiselle.stereotype.BusinessController;
-import br.gov.frameworkdemoiselle.template.DelegateCrud;
+import org.demoiselle.waf.business.AliasBC;
+import org.demoiselle.waf.business.UrlPathBC;
+import org.demoiselle.waf.domain.Alias;
+import org.demoiselle.waf.domain.UrlPath;
 
-@BusinessController
-public class BeanShellRuleBC extends DelegateCrud<BeanShellRule, Long, BeanShellRuleDAO> {
+import br.gov.frameworkdemoiselle.annotation.PreviousView;
+import br.gov.frameworkdemoiselle.stereotype.ViewController;
+import br.gov.frameworkdemoiselle.template.AbstractEditPageBean;
+import br.gov.frameworkdemoiselle.transaction.Transactional;
+
+@ViewController
+@PreviousView("./alias_list.jsf")
+public class AliasEditMB extends AbstractEditPageBean<Alias, Long> {
 
 	private static final long serialVersionUID = 1L;
+	
+	private DataModel<UrlPath> pathexceptions;
+	
+	@Inject
+	private AliasBC aliasBC;
+	
+	@Inject
+	private UrlPathBC urlPathBC;
+	
+	@Override
+	@Transactional
+	public String delete() {
+		this.aliasBC.delete(getId());
+		return getPreviousView();
+	}
+	
+	@Override
+	@Transactional
+	public String insert() {
+		Alias alias = getBean();
+				
+		urlPathBC.insert(alias.getPath());
+		
+		this.aliasBC.insert(getBean());
+		return getPreviousView();
+	}
+	
+	
+	@Override
+	@Transactional
+	public String update() {
+		this.aliasBC.update(getBean());
+		return getPreviousView();
+	}
+	
+	public DataModel<UrlPath> getPathExceptions() {
+		if (pathexceptions == null) {
+			pathexceptions = new ListDataModel<UrlPath>(getBean().getExceptions());
+		}
 
+		return pathexceptions;
+	}
+	
+	public void addPathException() {
+		getBean().getExceptions().add(new UrlPath());
+	}
 
+	public void deletePathException() {
+		getBean().getExceptions().remove(getPathExceptions().getRowData());
+	}
+
+	@Override
+	protected Alias handleLoad(Long id) {
+		return this.aliasBC.load(id);
+	}
+		
 }
