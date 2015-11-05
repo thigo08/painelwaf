@@ -29,7 +29,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.owasp.esapi.waf.actions.Action;
 import org.owasp.esapi.waf.actions.DoNothingAction;
-import org.owasp.esapi.waf.internal.InterceptingHTTPServletResponse;
+import org.demoiselle.waf.internal.InterceptingHTTPServletResponse;
+
 
 /**
  * This is the Rule subclass executed for &lt;add-header&gt; rules.
@@ -143,4 +144,5 @@ public class AddHeaderRule extends Rule {
 	public void setExceptions(List<UrlPath> exceptions) {
 		this.exceptions = exceptions;
 	}
+
 }

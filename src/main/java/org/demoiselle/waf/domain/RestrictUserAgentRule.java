@@ -24,7 +24,7 @@ import org.owasp.esapi.waf.actions.Action;
 import org.owasp.esapi.waf.actions.BlockAction;
 import org.owasp.esapi.waf.actions.DefaultAction;
 import org.owasp.esapi.waf.configuration.AppGuardianConfiguration;
-import org.owasp.esapi.waf.internal.InterceptingHTTPServletResponse;
+import org.demoiselle.waf.internal.InterceptingHTTPServletResponse;
 
 /**
  * This is the Rule subclass executed for &lt;restrict-user-agent&gt; rules.

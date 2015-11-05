@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.waf.actions.Action;
 import org.owasp.esapi.waf.actions.DoNothingAction;
-import org.owasp.esapi.waf.internal.InterceptingHTTPServletResponse;
+import org.demoiselle.waf.internal.InterceptingHTTPServletResponse;
 
 import bsh.EvalError;
 import bsh.Interpreter;

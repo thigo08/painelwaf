@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -36,6 +37,7 @@ import org.demoiselle.waf.business.AppGuardianConfigurationBC;
 import org.demoiselle.waf.config.ConfigurationParser;
 import org.demoiselle.waf.domain.AppGuardianConfiguration;
 import org.demoiselle.waf.domain.Rule;
+import org.demoiselle.waf.internal.InterceptingHTTPServletResponse;
 import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.Logger;
 import org.owasp.esapi.waf.actions.Action;
@@ -43,9 +45,7 @@ import org.owasp.esapi.waf.actions.BlockAction;
 import org.owasp.esapi.waf.actions.DefaultAction;
 import org.owasp.esapi.waf.actions.RedirectAction;
 import org.owasp.esapi.waf.internal.InterceptingHTTPServletRequest;
-import org.owasp.esapi.waf.internal.InterceptingHTTPServletResponse;
 
-import br.gov.frameworkdemoiselle.stereotype.BusinessController;
 
 /**
  * This is the main class for the ESAPI Web Application Firewall (WAF). It is a standard J2EE servlet filter
@@ -79,6 +79,7 @@ public class ESAPIWebApplicationFirewallFilter implements Filter {
 
 	private FilterConfig fc;
 	
+	@Inject
 	private AppGuardianConfigurationBC appGuardianConfigurationBC;
 	
 	private final Logger logger = ESAPI.getLogger(ESAPIWebApplicationFirewallFilter.class);
@@ -90,15 +91,16 @@ public class ESAPIWebApplicationFirewallFilter implements Filter {
      * @throws FileNotFoundException if the policy file cannot be located
 	 */
 	public void setConfiguration( String policyFilePath, String webRootDir ) throws FileNotFoundException {
-		try {
-			appGuardConfig = ConfigurationParser.readConfigurationFile(new FileInputStream(new File(policyFilePath)), webRootDir);
-			lastConfigReadTime = System.currentTimeMillis();
-			configurationFilename = policyFilePath;			
-		} catch (ConfigurationException e ) {
-            // TODO: It would be ideal if this method through the ConfigurationException rather than catching it and
-            // writing the error to the console.
-			e.printStackTrace();
-		}
+//TODO: Resolver ConfigurationParser
+//		try {
+//			appGuardConfig = ConfigurationParser.readConfigurationFile(new FileInputStream(new File(policyFilePath)), webRootDir);
+//			lastConfigReadTime = System.currentTimeMillis();
+//			configurationFilename = policyFilePath;			
+//		} catch (ConfigurationException e ) {
+//            // TODO: It would be ideal if this method through the ConfigurationException rather than catching it and
+//            // writing the error to the console.
+//			e.printStackTrace();
+//		}
 	}
 	
 	public AppGuardianConfiguration getConfiguration() {
@@ -164,26 +166,25 @@ public class ESAPIWebApplicationFirewallFilter implements Filter {
 		 * Open up configuration file and populate the AppGuardian configuration object.
 		 */
 
-		try {
-
-			String webRootDir = fc.getServletContext().getRealPath("/");
-			appGuardConfig = ConfigurationParser.readConfigurationFile(new FileInputStream(configurationFilename),webRootDir);			
-
-			DOMConfigurator.configure(realLogSettingsFilename);
-
-			lastConfigReadTime = System.currentTimeMillis();
-			
-		} catch (FileNotFoundException e) {
-			throw new ServletException(e);
-		} catch (ConfigurationException e) {
-			throw new ServletException(e);
-		}
+//TODO: RESOLVER ConfigurationParser
+//		try {
+//
+//			String webRootDir = fc.getServletContext().getRealPath("/");
+//			appGuardConfig = ConfigurationParser.readConfigurationFile(new FileInputStream(configurationFilename),webRootDir);			
+//
+//			DOMConfigurator.configure(realLogSettingsFilename);
+//
+//			lastConfigReadTime = System.currentTimeMillis();
+//			
+//		} catch (FileNotFoundException e) {
+//			throw new ServletException(e);
+//		} catch (ConfigurationException e) {
+//			throw new ServletException(e);
+//		}
 		
 		/*
 		 * Load configuration entity from Database.
-		 */	
-		//TODO: pesquisar como carregar uma classe do tipo @BusinessController fora do contexto do CDI.
-		//appGuardianConfigurationBC = 
+		 */
 		appGuardConfig = appGuardianConfigurationBC.loadSingletonInstance();
 
 	}

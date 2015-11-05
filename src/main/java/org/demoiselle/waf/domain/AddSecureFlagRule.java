@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.owasp.esapi.waf.actions.Action;
 import org.owasp.esapi.waf.actions.DoNothingAction;
-import org.owasp.esapi.waf.internal.InterceptingHTTPServletResponse;
+import org.demoiselle.waf.internal.InterceptingHTTPServletResponse;
 
 /**
  * This is the Rule subclass executed for &lt;add-secure-flag&gt; rules.

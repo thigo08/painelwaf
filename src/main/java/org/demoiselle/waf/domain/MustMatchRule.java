@@ -30,7 +30,7 @@ import org.owasp.esapi.waf.actions.DefaultAction;
 import org.owasp.esapi.waf.actions.DoNothingAction;
 import org.owasp.esapi.waf.configuration.AppGuardianConfiguration;
 import org.owasp.esapi.waf.internal.InterceptingHTTPServletRequest;
-import org.owasp.esapi.waf.internal.InterceptingHTTPServletResponse;
+import org.demoiselle.waf.internal.InterceptingHTTPServletResponse;
 
 /**
  * This is the Rule subclass executed for &lt;must-match&gt; rules.
